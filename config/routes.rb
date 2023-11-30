@@ -4,5 +4,5 @@ Rails.application.routes.draw do
   resources :users
   # get '/admins', to: 'users#admins', as: "admins"
   # get '/normal_user', to: 'users#normal_user', as: "normal_user" 
-  post "/search", to: "user#search"
+  post "users/search", to: "users#search"
 end
