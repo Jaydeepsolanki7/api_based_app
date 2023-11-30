@@ -12,6 +12,9 @@ gem "sqlite3", "~> 1.4"
 gem "puma", ">= 5.0"
 # 
 gem 'letter_opener_web'
+# 
+gem 'ransack'
+
 
 # Build JSON APIs with ease [https://github.com/rails/jbuilder]
 # gem "jbuilder"
