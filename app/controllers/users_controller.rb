@@ -1,33 +1,24 @@
 class UsersController < ApplicationController
-
+  before_action :set_user, only: [:show, :update, :destroy]
   def index
-    @users = User.all
-    render json: @users
-  end
-
-  def admins
-    @user = User.where(user_type: "admin")
-    render json: @user
-  end
-
-  def normal_user
-    @user = User.where(user_type: "user")
-    render json: @user
+    user_type = params[:user_type]
+    if user_type == "admin"
+      @users = User.where(user_type: "admin")
+      render json: @users
+    else
+      @users = User.where(user_type: "user")
+      render json: @users
+    end
   end
 
   def show
-    @user = User.find(params[:id])
-    if @user
-      render json: @user
-    else
-      render json: {error: "Unable to show User"}, status: 400
-    end
+    render json: @user
   end
 
   def create
     @user = User.new(user_params)
     if @user.save
-      UserMailer.welcome_email(@user).deliver_now
+      UserMailer.welcome_email(@user).deliver_now!
       render json: @user
     else
       render json: { error: "Unable to create user"}, status: 400
@@ -35,28 +26,32 @@ class UsersController < ApplicationController
   end
 
   def update
-    @user = User.find(params[:id])
-    if @user
-      @user.update(user_params)
-      # render json: { message: "User succesfully updated."}, status: 200
+    if @user.update(user_params)
+      render json: { message: "User succesfully updated."}, status: 200
     else
       render json: {error: "Unable to update User"}, status: 400
     end
   end
 
   def destroy
-    @user = User.find(params[:id])
-    if @user
-      @user.destroy()
-      # render json: { message: "User successfully deleted" }
+    if @user.destroy()
+      render json: { message: "User succesfully deleted."}, status: 200
+
     else
       render json: { error: "unable to delete user"}, status: 400
     end
   end
 
+  def search
+  end
+
   private
 
     def user_params
-      params.permit(:name, :age, :email)
+      params.permit(:name, :age, :email, :user_type)
+    end
+
+    def set_user
+      @user = User.find(params[:id])
     end
 end
