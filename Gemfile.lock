@@ -1,13 +1,3 @@
-GIT
-  remote: https://github.com/activerecord-hackery/ransack.git
-  revision: cc624b97930af59c0fbe5f1226951684f8433810
-  branch: main
-  specs:
-    ransack (4.1.1)
-      activerecord (>= 6.1.5)
-      activesupport (>= 6.1.5)
-      i18n
-
 GEM
   remote: https://rubygems.org/
   specs:
@@ -102,6 +92,11 @@ GEM
     drb (2.2.0)
       ruby2_keywords
     erubi (1.12.0)
+    et-orbi (1.2.7)
+      tzinfo
+    fugit (1.9.0)
+      et-orbi (~> 1, >= 1.2.7)
+      raabro (~> 1.4)
     globalid (1.2.1)
       activesupport (>= 6.1)
     i18n (1.14.1)
@@ -150,15 +145,18 @@ GEM
     public_suffix (5.0.4)
     puma (6.4.0)
       nio4r (~> 2.0)
+    raabro (1.4.0)
     racc (1.7.3)
-    rack (3.0.8)
-    rack-session (2.0.0)
-      rack (>= 3.0.0)
+    rack (2.2.8)
+    rack-protection (3.1.0)
+      rack (~> 2.2, >= 2.2.4)
+    rack-session (1.0.1)
+      rack (< 3)
     rack-test (2.1.0)
       rack (>= 1.3)
-    rackup (2.1.0)
-      rack (>= 3)
-      webrick (~> 1.8)
+    rackup (1.0.0)
+      rack (< 3)
+      webrick
     rails (7.1.2)
       actioncable (= 7.1.2)
       actionmailbox (= 7.1.2)
@@ -191,12 +189,21 @@ GEM
     rake (13.1.0)
     rdoc (6.6.0)
       psych (>= 4.0.0)
+    redis (4.5.1)
     reline (0.4.0)
       io-console (~> 0.5)
     rexml (3.2.6)
     ruby2_keywords (0.0.5)
     search_cop (1.2.3)
       treetop
+    sidekiq (5.2.10)
+      connection_pool (~> 2.2, >= 2.2.2)
+      rack (~> 2.0)
+      rack-protection (>= 1.5.0)
+      redis (~> 4.5, < 4.6.0)
+    sidekiq-cron (1.9.1)
+      fugit (~> 1.8)
+      sidekiq (>= 4.2.1)
     sqlite3 (1.6.9-x86_64-linux)
     stringio (3.0.9)
     thor (1.3.0)
@@ -220,8 +227,10 @@ DEPENDENCIES
   letter_opener_web
   puma (>= 5.0)
   rails (~> 7.1.2)
-  ransack!
+  redis
   search_cop
+  sidekiq (~> 5.2.8)
+  sidekiq-cron
   sqlite3 (~> 1.4)
   tzinfo-data
 

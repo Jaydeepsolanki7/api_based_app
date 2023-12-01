@@ -5,31 +5,33 @@ class UsersController < ApplicationController
     if user_type == "admin"
       @users = User.where(user_type: "admin")
       render json: @users
-    else
+    elsif user_type == "user"
       @users = User.where(user_type: "user")
+      render json: @users
+    else
+      @users = User.all
       render json: @users
     end
   end
 
-  def gem_searching
-    @users = User.search(params[:name])
-    render json: @users
-  end
-
+  
   def show
     render json: @user
   end
 
   def create
+    debugger
     @user = User.new(user_params)
     if @user.save
-      UserMailer.welcome_email(@user).deliver_now!
       render json: @user
+      UserMailer.welcome_email(@user).deliver_later
+      PeriodicEmailWorkerJob.perform_in(1.minute, @user.id)
+
     else
       render json: { error: "Unable to create user"}, status: 400
     end
   end
-
+  
   def update
     if @user.update(user_params)
       render json: { message: "User succesfully updated."}, status: 200
@@ -37,19 +39,24 @@ class UsersController < ApplicationController
       render json: {error: "Unable to update User"}, status: 400
     end
   end
-
+  
   def destroy
     if @user.destroy()
       render json: { message: "User succesfully deleted."}, status: 200
-
+      
     else
       render json: { error: "unable to delete user"}, status: 400
     end
   end
-
+  
   def search
     name = params[:name]
     @users = User.where('name LIKE ?', "%#{name}%")
+    render json: @users
+  end
+  
+  def gem_searching
+    @users = User.search(params[:name])
     render json: @users
   end
 
