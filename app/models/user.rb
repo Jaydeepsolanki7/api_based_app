@@ -1,8 +1,9 @@
 class User < ApplicationRecord
-  enum :user_type, [:admin, :user]
+  include SearchCop
 
-  def self.ransackable_attributes(auth_object = nil)
-    ["age", "created_at", "email", "id", "id_value", "name", "updated_at", "user_type"]
+  search_scope :search do
+    attributes :name
   end
 
+  enum :user_type, [:admin, :user]
 end

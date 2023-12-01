@@ -12,32 +12,8 @@ class UsersController < ApplicationController
   end
 
   def gem_searching
-    debugger
-    # @users = User.search(name: params[:name]).result
-    # render json: @users
-
-    # @search = User.ransack(params[:name])
-    # @user = @search.result
-    # render json: @user
-
-    @search = User.ransack(params[:name])
-    @users = @search.result
+    @users = User.search(params[:name])
     render json: @users
-    
-    # @users = User.all  
-    # @name = User.ransack(params[:name])
-    # @people = @name.result.group('users.name')
-    # @search.build_condition
-    # render json: @user
-
-    
-    # @search = User.ransack(search_params)
-    # @user = @search.result(distinct: true)
-    # render json: @user
-
-    # @name = User.ransack(params[:name])
-    # @user = @name.result(distinct: true)
-    # render json: @user
   end
 
   def show
@@ -85,10 +61,5 @@ class UsersController < ApplicationController
 
     def set_user
       @user = User.find(params[:id])
-    end
-
-    def search_params
-      debugger
-      params.permit(:name)
     end
 end
