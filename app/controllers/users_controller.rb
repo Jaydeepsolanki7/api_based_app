@@ -25,7 +25,7 @@ class UsersController < ApplicationController
     if @user.save
       render json: @user
       UserMailer.welcome_email(@user).deliver_later
-      PeriodicEmailWorkerJob.perform_in(1.minute, @user.id)
+      UserMailerWorkerWorker.perform_in(1.hour, @user.id)
 
     else
       render json: { error: "Unable to create user"}, status: 400
