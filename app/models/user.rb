@@ -3,7 +3,8 @@ class User < ApplicationRecord
   validates :name, presence: true
   validates :email, presence: true
   validates :age, presence: true
-  
+  validates :user_type, presence: true
+
   search_scope :search do
     attributes :name
   end

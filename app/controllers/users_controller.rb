@@ -20,19 +20,18 @@ class UsersController < ApplicationController
   end
 
   def create
-    debugger
     @user = User.new(user_params)
     if @user.save
       render json: @user
-      UserMailer.welcome_email(@user).deliver_later
+      UserMailer.welcome_email(send_at = 1.hour.from_now,@user).deliver_later
       UserMailerWorkerWorker.perform_in(1.hour, @user.id)
-
     else
       render json: { error: "Unable to create user"}, status: 400
     end
   end
   
   def update
+    debugger
     if @user.update(user_params)
       render json: { message: "User succesfully updated."}, status: 200
     else
@@ -63,7 +62,7 @@ class UsersController < ApplicationController
   private
 
     def user_params
-      params.permit(:name, :age, :email, :user_type)
+      params.require(:user).permit(:name, :age, :email, :user_type)
     end
 
     def set_user

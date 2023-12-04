@@ -1,5 +1,4 @@
-# config/sidekiq-cron.yml
 :send_welcome_email:
-  cron: '0 * * * *' # Run every hour
+  cron: '0 * * * *' 
   class: 'UserMailerWorker'
   queue: default
