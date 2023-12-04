@@ -24,6 +24,9 @@ gem 'rails-controller-testing'
 gem "faker"
 #
 gem 'shoulda-matchers'
+#
+gem 'activeadmin'
+# 
 
 # Build JSON APIs with ease [https://github.com/rails/jbuilder]
 # gem "jbuilder"

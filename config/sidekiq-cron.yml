@@ -1,4 +1,4 @@
-:send_welcome_email:
+:welcome_email:
   cron: '0 * * * *' 
   class: 'UserMailerWorker'
   queue: default
